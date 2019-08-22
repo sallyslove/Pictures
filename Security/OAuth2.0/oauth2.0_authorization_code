@@ -1,0 +1,15 @@
+actor "resource owner"
+actor client
+entity "authorization server"
+entity "resource server"
+"resource owner" -> client: HTTP request GET /coolshell/admin/ HTTP/1.1
+client -> "authorization server": https://b.com/oauth/authorize?  response_type=code&client_id=CLIENT_ID&redirect_uri=CALLBACK_URL&scope=read
+note left: code代表授权码的方式
+"authorization server" -> "resource owner": please send user name & password，and allow client to use
+note left: 终端用户登录并授权第三方应用
+"authorization server" -> client: authorization code
+client -> "authorization server": authorization code
+note left: 将code发回来换令牌，为啥还要换啊
+"authorization server" -> client: token
+client -> "resource server": ask for resource with token
+"resource server" -> client: data asked
